@@ -28,9 +28,36 @@ class Guide extends StatelessWidget {
                 ),
               ),
             ),
-            child: const Padding(
-              padding: EdgeInsets.all(8),
-            )),
+            child:  Padding(
+              padding: const EdgeInsets.all(15),
+              child: Stack(
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      Get.back();
+                    },
+                    child: const Icon(
+                        Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const Center(
+                    child: Text(
+                      'GUIDE',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontFamily: 'Roboto Condensed',
+                        fontWeight: FontWeight.w700,
+                        decoration: TextDecoration.none
+                      ),
+                    )
+                  )
+                ],
+              ),
+            ),
+        ),
         Obx(() =>
           Padding(
             padding: const EdgeInsets.all(20),
@@ -48,6 +75,7 @@ class Guide extends StatelessWidget {
                     height: 50,
                     child: GestureDetector(
                       onTap: () {
+                        controller.btnPressedSound();
                         controller.changeGuide(GuideSelect.guideRules);
                       },
                       child: Stack(
@@ -55,10 +83,13 @@ class Guide extends StatelessWidget {
                           Positioned(
                             left: 0,
                             top: 0,
-                            child: Container(
-                              width: 82,
-                              height: 50,
-                              decoration: controller.selectedGuide.value == GuideSelect.guideRules ? selectedDecoration() : unSelectedDecoration()
+                            child: Opacity(
+                              opacity: controller.selectedGuide.value == GuideSelect.guideRules ? 1.0 : 0.50,
+                              child: Container(
+                                width: 82,
+                                height: 50,
+                                decoration: controller.selectedGuide.value == GuideSelect.guideRules ? selectedDecoration() : unSelectedDecoration()
+                              ),
                             ),
                           ),
                           const Positioned(
@@ -86,6 +117,7 @@ class Guide extends StatelessWidget {
                     height: 50,
                     child: GestureDetector(
                       onTap: () {
+                        controller.btnPressedSound();
                         controller.changeGuide(GuideSelect.guidePhases);
                       },
                       child: Stack(
@@ -94,7 +126,7 @@ class Guide extends StatelessWidget {
                             left: 0,
                             top: 0,
                             child: Opacity(
-                              opacity: 0.50,
+                              opacity:  controller.selectedGuide.value == GuideSelect.guidePhases ? 1.0 : 0.50,
                               child: Container(
                                 width: 82,
                                 height: 50,
@@ -127,6 +159,7 @@ class Guide extends StatelessWidget {
                     height: 50,
                     child: GestureDetector(
                       onTap: () {
+                        controller.btnPressedSound();
                         controller.changeGuide(GuideSelect.guideActions);
                       },
                       child: Stack(
@@ -135,7 +168,7 @@ class Guide extends StatelessWidget {
                             left: 0,
                             top: 0,
                             child: Opacity(
-                              opacity: 0.50,
+                              opacity:   controller.selectedGuide.value == GuideSelect.guideActions ? 1.0 : 0.50,
                               child: Container(
                                 width: 82,
                                 height: 50,

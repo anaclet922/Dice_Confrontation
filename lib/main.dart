@@ -28,10 +28,10 @@ class _MyAppState extends State<MyApp> {
       title: 'Dice Confrontation',
       initialRoute: '/',
       routes: {
-        '/': (context) => const MainLayout(page: Home()),
+        '/': (context) =>  MainLayout(page: Home()),
         'guide': (context) =>  MainLayout(page: Guide()),
-        'play':  (context) =>  const MainLayout(page: Play()),
-        '/statistic': (context) => const MainLayout(page: Statistics())
+        'play':  (context) =>  MainLayout(page: Play()),
+        'statistics': (context) => MainLayout(page: Statistics())
       },
     );
   }

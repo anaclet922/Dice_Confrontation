@@ -1,8 +1,11 @@
+import 'package:dice/game_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+   Home({super.key});
+
+  final controller = Get.put(GameController());
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class Home extends StatelessWidget {
               ),
             ),
           ),
-          child: Center(
+          child: const Center(
             child: Text(
               'MAIN',
               textAlign: TextAlign.center,
@@ -48,6 +51,7 @@ class Home extends StatelessWidget {
                     height: 50,
                     child: GestureDetector(
                       onTap: (){
+                        controller.btnPressedSound();
                         Get.toNamed('guide');
                       },
                       child: Stack(
@@ -95,6 +99,7 @@ class Home extends StatelessWidget {
                     height: 50,
                     child: GestureDetector(
                       onTap: (){
+                        controller.btnPressedSound();
                         Get.toNamed('play');
                       },
                       child: Stack(
@@ -142,6 +147,7 @@ class Home extends StatelessWidget {
                     height: 50,
                     child: GestureDetector(
                       onTap: (){
+                        controller.btnPressedSound();
                         Get.toNamed('statistics');
                       },
                       child: Stack(
