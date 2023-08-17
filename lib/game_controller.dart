@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
@@ -22,6 +24,9 @@ class GameController extends GetxController {
   RxInt maxDamageInTurn = 0.obs;
   RxInt maxDamageInMatch = 0.obs;
 
+  RxInt countDown = 30.obs;
+  late Timer timer;
+
 
   void changeGuide(GuideSelect newSelection){
     selectedGuide.value = newSelection;
@@ -34,7 +39,15 @@ class GameController extends GetxController {
     notPlayScreenSound();
   }
 
-
+  void startTimer() {
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (countDown.value > 0) {
+        countDown.value--;
+      } else {
+        timer.cancel();
+      }
+    });
+  }
 
 
 
@@ -48,7 +61,16 @@ class GameController extends GetxController {
 
   void btnPressedSound() async{
     String audioAsset = "assets/click.mp3";
+    AudioPlayer tmpPlayer = AudioPlayer();
+    await tmpPlayer.setAsset(audioAsset);
+    tmpPlayer.play();
+  }
+
+  void playNewBackgroundSound() async{
+    player.stop();
+    String audioAsset = "assets/bg_for_play_screen.mp3";
     await player.setAsset(audioAsset);
+    await player.setLoopMode(LoopMode.one);
     player.play();
   }
 
