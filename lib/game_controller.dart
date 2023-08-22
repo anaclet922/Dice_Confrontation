@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,6 +28,8 @@ class GameController extends GetxController {
   RxInt countDown = 30.obs;
   late Timer timer;
 
+  late RxList<int> diceNumbers;
+  RxInt totalDiceCount = 0.obs;
 
   void changeGuide(GuideSelect newSelection){
     selectedGuide.value = newSelection;
@@ -72,6 +75,34 @@ class GameController extends GetxController {
     await player.setAsset(audioAsset);
     await player.setLoopMode(LoopMode.one);
     player.play();
+  }
+
+
+  void shuffleList<T>() {
+
+    List<T> list = List.from(diceNumbers.value); // Create a copy of the original list
+    Random random = Random();
+
+    for (int i = list.length - 1; i > 0; i--) {
+      int j = random.nextInt(i + 1);
+
+      // Swap elements at i and j
+      T temp = list[i];
+      list[i] = list[j];
+      list[j] = temp;
+    }
+    diceNumbers.value = List.from(list);
+  }
+
+  void shakeDiceResults(int startRange, int endRange){
+    diceNumbers.value = [];
+    totalDiceCount.value = 0;
+    Random random = Random();
+    for(int i = 1; i <= 6; i++){
+      int randomNumber = random.nextInt(endRange) + startRange;
+      diceNumbers.value.add(randomNumber);
+      totalDiceCount.value += randomNumber;
+    }
   }
 
 }

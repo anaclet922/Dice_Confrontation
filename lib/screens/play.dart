@@ -13,6 +13,8 @@ class Play extends StatelessWidget {
 
     controller.startTimer();
     controller.playNewBackgroundSound();
+    controller.shakeDiceResults(1,6);
+
 
     return Stack(
       children:[
@@ -43,20 +45,37 @@ class Play extends StatelessWidget {
                           fit: BoxFit.fill
                       )
                   ),
-                  child: Stack(
-                    children: [
-                      readyBtn(),
-                      Expanded(
-                        child: Center(
-                          child: GestureDetector(
-                              onTap: (){
-                                Get.to("");
-                              },
-                              child: Image.asset("assets/bottom_shaking_with_dice.png")
+                  child: Obx(() =>
+                    Column(
+                      children: [
+                        readyBtn(),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 35.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Image.asset("assets/dice_${controller.diceNumbers.value[0]}.png", width: 30.0),
+                              Image.asset("assets/dice_${controller.diceNumbers.value[1]}.png", width: 30.0),
+                              Image.asset("assets/dice_${controller.diceNumbers.value[2]}.png", width: 30.0),
+                              Image.asset("assets/dice_${controller.diceNumbers.value[3]}.png", width: 30.0),
+                              Image.asset("assets/dice_${controller.diceNumbers.value[4]}.png", width: 30.0),
+                              Image.asset("assets/dice_${controller.diceNumbers.value[5]}.png", width: 30.0),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
+                        Expanded(
+                          child: Center(
+                            child: GestureDetector(
+                                onTap: (){
+                                  // Get.to("");
+                                  controller.shakeDiceResults(1, 6);
+                                },
+                                child: Image.asset("assets/bottom_shaking_with_dice.png")
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 )
             ),
