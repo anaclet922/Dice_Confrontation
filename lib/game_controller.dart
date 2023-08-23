@@ -26,10 +26,16 @@ class GameController extends GetxController {
   RxInt maxDamageInMatch = 0.obs;
 
   RxInt countDown = 30.obs;
+  RxInt countDownRealPlay = 20.obs;
   late Timer timer;
 
-  late RxList<int> diceNumbers;
+  RxList<int> diceNumbers = [1].obs;
+  RxList<int> diceNumbersNpc = [1].obs;
+
   RxInt totalDiceCount = 0.obs;
+  RxInt totalDiceCountNpc = 0.obs;
+
+  RxBool hideCountAndPlay = false.obs;
 
   void changeGuide(GuideSelect newSelection){
     selectedGuide.value = newSelection;
@@ -40,14 +46,31 @@ class GameController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     notPlayScreenSound();
+    shakeDiceResults(1, 6);
   }
 
   void startTimer() {
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (countDown.value > 0) {
         countDown.value--;
       } else {
+        Get.toNamed('real-play');
+        countDown.value = 30;
         timer.cancel();
+      }
+    });
+  }
+
+
+
+  void startTimerRealPlay() {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (countDownRealPlay.value > 0) {
+        countDownRealPlay.value--;
+      } else {
+        timer.cancel();
+        countDownRealPlay.value = 20;
+        hideCountAndPlay.value = true;
       }
     });
   }
@@ -104,5 +127,17 @@ class GameController extends GetxController {
       totalDiceCount.value += randomNumber;
     }
   }
+
+  void shakeDiceResultsNpc(int startRange, int endRange){
+    diceNumbersNpc.value = [];
+    totalDiceCountNpc.value = 0;
+    Random random = Random();
+    for(int i = 1; i <= 6; i++){
+      int randomNumber = random.nextInt(endRange) + startRange;
+      diceNumbersNpc.value.add(randomNumber);
+      totalDiceCountNpc.value += randomNumber;
+    }
+  }
+
 
 }

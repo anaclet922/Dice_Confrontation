@@ -3,18 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-class Play extends StatelessWidget {
-   Play({super.key});
+class RealPlay extends StatelessWidget {
+  RealPlay({super.key});
 
    final controller = Get.put(GameController());
 
   @override
   Widget build(BuildContext context) {
 
-    controller.startTimer();
+    controller.startTimerRealPlay();
     controller.playNewBackgroundSound();
-    controller.shakeDiceResults(1,6);
-    controller.shakeDiceResultsNpc(1,6);
 
 
     return Stack(
@@ -84,7 +82,7 @@ class Play extends StatelessWidget {
         ),
 
         Center(
-            child: Container(
+            child:     Obx(() => Container(
               height: 31.0,
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
@@ -93,15 +91,16 @@ class Play extends StatelessWidget {
                       fit: BoxFit.fill
                   )
               ),
-              child: Obx(() =>
+              child:
+                  controller.hideCountAndPlay.value ?
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Choose your dice ", style: TextStyle(fontSize: 12.0, decoration: TextDecoration.none,color: Colors.white),),
+                      const Text("Play your dice ", style: TextStyle(fontSize: 12.0, decoration: TextDecoration.none,color: Colors.white),),
                       Image.asset("assets/timer.png", width: 20.0,),
-                      Text(" ${controller.countDown} sec", style: const TextStyle(fontSize: 12.0, decoration: TextDecoration.none,color: Colors.white))
+                      Text(" ${controller.countDownRealPlay} sec", style: const TextStyle(fontSize: 12.0, decoration: TextDecoration.none,color: Colors.white))
                     ],
-                  ),
+                  ) : Text('')
               ),
             )
         ),
@@ -132,6 +131,75 @@ class Play extends StatelessWidget {
                   fit: BoxFit.fill
                 )
               ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Image.asset("assets/heart.png", width: 24.0),
+                      ),
+                      Text(
+                          '20',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          decoration: TextDecoration.none
+                        )
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Image.asset("assets/dice_${controller.diceNumbers.value[0]}.png", width: 22.0),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Image.asset("assets/dice_${controller.diceNumbers.value[1]}.png", width: 22.0),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Image.asset("assets/dice_${controller.diceNumbers.value[2]}.png", width: 22.0),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Image.asset("assets/dice_${controller.diceNumbers.value[3]}.png", width: 22.0),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Image.asset("assets/dice_${controller.diceNumbers.value[4]}.png", width: 22.0),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Image.asset("assets/dice_${controller.diceNumbers.value[5]}.png", width: 22.0),
+                      ),
+                      Padding(
+                          padding:  const EdgeInsets.all(2.0),
+                        child: Text(
+                          controller.totalDiceCount.value.toString(),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            decoration: TextDecoration.none
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: (){
+
+                    },
+                    child:  Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Image.asset("assets/flag.png", width: 24.0),
+                    ),
+                  )
+                ],
+              ),
             )
         )
       ]
@@ -144,7 +212,7 @@ class Play extends StatelessWidget {
       child: GestureDetector(
         onTap: (){
           controller.btnPressedSound();
-          Get.toNamed('real-play');
+          Get.to('real-play');
         },
         child: Container(
           margin: const EdgeInsets.only(top: 20.0),
